@@ -1,0 +1,175 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.IO;
+
+namespace vizsga_gyakorlas
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            List<szamokcs> szamok_lista = new List<szamokcs>();
+            string[] sorok = File.ReadAllLines("nyeremenyek.txt");
+            foreach (var item in sorok)
+            {
+                string[] szam = item.Split(';');
+                List<int> ertekek = new List<int>();
+                szamokcs szam_betolto = new szamokcs(szam[0], szam[1], szam[2], szam[3], szam[4]);
+                szamok_lista.Add(szam_betolto);
+            }
+            Console.WriteLine("2.feladat");
+            Console.WriteLine();
+            Console.Write("Adjon meg egy számot: ");
+            int a = Convert.ToInt32(Console.ReadLine());
+            foreach (var item in szamok_lista)
+            {
+                if (a == item.sorSzam)
+                {
+                    Console.WriteLine($"A {a}. sorszámú játszma adatai:");
+                    Console.WriteLine($" {item.userName}, {item.tet}, {item.szorzo}, {item.nyertes}");
+                }
+            }
+
+
+            Console.WriteLine();
+            Console.WriteLine("3.feladat");
+            Console.WriteLine();
+
+            string felh;
+            int maxdb = 0;
+            string jofelh="";
+            int max = 2;
+            int ossz = 0;
+            foreach (var item in szamok_lista)
+            {
+                
+                maxdb = 0;
+                felh = item.userName;
+                foreach (var asd in szamok_lista)
+
+                {
+                    
+                    if (asd.userName==felh)
+                    {
+                        maxdb++;
+                       
+                        
+                    }
+                }
+                if (maxdb>max)
+                {
+                    max = maxdb;
+                    jofelh = felh;
+
+                }
+            }
+            foreach (var item in szamok_lista)
+            {
+                if (item.userName==jofelh)
+                {
+                    ossz = ossz + item.tet;
+                }
+            }
+
+            Console.WriteLine($"{jofelh},{max},{ossz}");
+
+
+
+            Console.WriteLine();
+            Console.WriteLine("4.feladat");
+            Console.WriteLine();
+
+            int ossznyert = 0;
+            foreach (var item in szamok_lista)
+            {
+                if (item.nyertes=="nyertes")
+                {
+                    ossznyert++;
+                }
+            }
+            Console.WriteLine(ossznyert);
+            Console.WriteLine();
+
+            Console.WriteLine("5.feladat");
+            Console.WriteLine();
+
+            int nyeremeny = 0;
+            int minnyeremeny = 25000;
+            int sorszam=0;
+
+            foreach (var item in szamok_lista)
+            {
+                nyeremeny = 0;
+                nyeremeny = item.tet * item.szorzo;
+                if (nyeremeny<minnyeremeny)
+                {
+                    minnyeremeny = nyeremeny;
+                    sorszam = item.sorSzam;
+                }
+            }
+            Console.WriteLine(minnyeremeny);
+            foreach (var item in szamok_lista)
+
+            {
+                if (item.sorSzam==sorszam)
+                {
+                    Console.WriteLine($"{item.sorSzam}, {item.userName}, {item.tet}, {item.szorzo}, {item.nyertes}");
+                }
+            }
+
+
+            Console.WriteLine();
+            Console.WriteLine("6.feldaat");
+            Console.WriteLine();
+            int maxtal = 0;
+            int firstfive = 0;
+
+            foreach (var item in szamok_lista)
+
+            {
+                if (item.userName.StartsWith("a"))
+                {
+                    maxtal++;
+                }
+            }
+
+            foreach (var item in szamok_lista)
+            {
+
+                if (item.userName.StartsWith("a"))
+                {
+
+
+                    maxtal++;
+                    firstfive++;
+                    if (firstfive <= 5)
+                    {
+                        Console.WriteLine(item.userName);
+                    }
+
+                }
+            }
+            Console.WriteLine($"Ennyi db a val kezdodo: {maxtal}");
+
+            Console.WriteLine();
+            Console.WriteLine("7.feladat");
+            Console.WriteLine();
+
+            foreach (var item in szamok_lista)
+
+            {
+                if (item.nyertes=="nyertes")
+                {
+                    Console.WriteLine($"{item.sorSzam},{item.userName},{item.tet*item.szorzo}");
+                }
+            }
+            
+            
+            Console.ReadKey();
+
+        }
+    }
+}
