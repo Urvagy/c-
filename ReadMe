@@ -1,0 +1,179 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.IO;
+
+namespace ConsoleApp1
+{
+    
+    class Program
+    {
+        public struct sors
+        {
+            public int sorszam;
+            public int egy;
+            public int ket;
+            public int har;
+            public int negy;
+            public int ot;
+        }
+        static sors[] sorsolas = new sors[500];
+        static void Main(string[] args)
+        {
+            string fileNev = "sorsolas.txt";
+            string sor = "";
+            string[] sorok = System.IO.File.ReadAllLines(fileNev);
+            int sorokszama = sorok.Length;
+            int i = 1;
+
+            for (i = 1; i < sorokszama; i++)
+            {
+                sor = sorok[i];
+                string[] adat = sor.Split(';');
+                sorsolas[i].sorszam = Convert.ToInt32(adat[0]);
+                sorsolas[i].egy = Convert.ToInt32(adat[1]);
+                sorsolas[i].ket = Convert.ToInt32(adat[2]);
+                sorsolas[i].har = Convert.ToInt32(adat[3]);
+                sorsolas[i].negy = Convert.ToInt32(adat[4]);
+                sorsolas[i].ot = Convert.ToInt32(adat[5]);
+            }
+
+            
+
+            //2.feladat
+            Console.Write("Kérem adjon meg egy számot 1 és 52 között: ");
+            string input = Console.ReadLine();
+            int szam = Convert.ToInt32(input);
+
+            if(szam < 1 || szam > 52)
+            {
+                Console.WriteLine("Hibás adat!");
+            }
+            else
+            {
+                for (i = 1; i < sorokszama; i++)
+                {
+                    if (sorsolas[i].sorszam == szam)
+                    {
+                        Console.WriteLine("A megadot hét nyerőszamai:" + sorsolas[i].egy + "," + sorsolas[i].ket + "," + sorsolas[i].har + "," + sorsolas[i].negy + "," + sorsolas[i].ot);
+                    }
+                }
+            }
+
+            // 3.feladat
+
+            int[] szamok = new int[91]; // Tárolja az egyes számok előfordulásainak számát
+
+            for (i = 1; i < sorokszama; i++)
+            {
+                sors aktSors = sorsolas[i];
+                szamok[aktSors.egy]++;
+                szamok[aktSors.ket]++;
+                szamok[aktSors.har]++;
+                szamok[aktSors.negy]++;
+                szamok[aktSors.ot]++;
+            }
+
+            int legkevesebbIndex = 1; // Az indexe az adott számnak
+            for (int j = 2; j <= 90; j++)
+            {
+                if (szamok[j] < szamok[legkevesebbIndex])
+                {
+                    legkevesebbIndex = j;
+                }
+            }
+
+            Console.WriteLine("A legkevesebbszer kihúzott szám: " + legkevesebbIndex);
+
+
+            // 4. feladat
+            int parosSzamokSzama = 0;
+
+            for (i = 1; i < sorokszama; i++)
+            {
+                sors aktSors = sorsolas[i];
+                if (aktSors.egy % 2 == 0)
+                    parosSzamokSzama++;
+                if (aktSors.ket % 2 == 0)
+                    parosSzamokSzama++;
+                if (aktSors.har % 2 == 0)
+                    parosSzamokSzama++;
+                if (aktSors.negy % 2 == 0)
+                    parosSzamokSzama++;
+                if (aktSors.ot % 2 == 0)
+                    parosSzamokSzama++;
+            }
+
+            Console.WriteLine("Az évben összesen " + parosSzamokSzama + " alkalommal húztak páros számot.");
+
+
+            // 5. feladat
+            int otosSzamDarab = 0;
+
+            for (i = 1; i < sorokszama; i++)
+            {
+                sors aktSors = sorsolas[i];
+                if (aktSors.egy == 5)
+                    otosSzamDarab++;
+                if (aktSors.ket == 5)
+                    otosSzamDarab++;
+                if (aktSors.har == 5)
+                    otosSzamDarab++;
+                if (aktSors.negy == 5)
+                    otosSzamDarab++;
+                if (aktSors.ot == 5)
+                    otosSzamDarab++;
+            }
+
+            Console.WriteLine("Az ötöst összesen " + otosSzamDarab + " alkalommal húzták ki.");
+
+            // 6. feladat
+            int negyvenhatosSzamDarab = 0;
+
+            for (i = 1; i < sorokszama; i++)
+            {
+                sors aktSors = sorsolas[i];
+                if (aktSors.egy == 46)
+                    negyvenhatosSzamDarab++;
+                if (aktSors.ket == 46)
+                    negyvenhatosSzamDarab++;
+                if (aktSors.har == 46)
+                    negyvenhatosSzamDarab++;
+                if (aktSors.negy == 46)
+                    negyvenhatosSzamDarab++;
+                if (aktSors.ot == 46)
+                    negyvenhatosSzamDarab++;
+            }
+
+            Console.WriteLine("A 46-ost összesen " + negyvenhatosSzamDarab + " alkalommal húzták ki.");
+
+
+            // 7. feladat
+            int[] szamokDarab = new int[91]; // Tárolja az egyes számok előfordulásainak számát
+
+            for (i = 1; i < sorokszama; i++)
+            {
+                sors aktSors = sorsolas[i];
+                szamokDarab[aktSors.egy]++;
+                szamokDarab[aktSors.ket]++;
+                szamokDarab[aktSors.har]++;
+                szamokDarab[aktSors.negy]++;
+                szamokDarab[aktSors.ot]++;
+            }
+
+            Console.WriteLine("");
+            Console.WriteLine("");
+            Console.WriteLine("Számok és előfordulásuk:");
+
+            for (int szamka = 1; szamka <= 90; szamka++)
+            {
+                Console.WriteLine(szamka + ": " + szamokDarab[szamka] + " alkalommal");
+            }
+
+            Console.ReadKey();
+
+        }
+    }
+}
